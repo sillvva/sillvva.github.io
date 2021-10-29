@@ -1,7 +1,7 @@
 // ==UserScript==">
 // @name         D&D Beyond Content Editor
 // @namespace    http://dndbeyond.com/
-// @version      0.2
+// @version      0.3
 // @description  Adds extra content editor quality of life changes
 // @author       Stormknight
 // @updateURL    https://sillvva.github.io/tampermonkey/ddb.content.editor.user.js
