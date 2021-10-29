@@ -4,6 +4,8 @@
 // @version      0.1
 // @description  Adds extra content editor quality of life changes
 // @author       Stormknight
+// @updateURL    https://sillvva.github.io/tampermonkey/ddb.content.editor.js
+// @downloadURL  https://sillvva.github.io/tampermonkey/ddb.content.editor.js
 // @match        https://www.dndbeyond.com/cp/cms/pages/*
 // @grant        none
 // ==/UserScript==
