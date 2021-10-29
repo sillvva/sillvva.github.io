@@ -1,9 +1,11 @@
 // ==UserScript==">
 // @name         D&D Beyond Tweaks
 // @namespace    http://dndbeyond.com/
-// @version      0.1
+// @version      0.2
 // @description  Adds quality of life changes
 // @author       Sillvva
+// @updateURL    https://sillvva.github.io/tampermonkey/ddb.tweaks.js
+// @downloadURL  https://sillvva.github.io/tampermonkey/ddb.tweaks.js
 // @match        https://*.dndbeyond.com/*
 // @grant        none
 // ==/UserScript==
