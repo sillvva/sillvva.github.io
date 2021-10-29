@@ -4,8 +4,8 @@
 // @version      2.6
 // @description  Adds extra moderator options and links
 // @author       Stormknight (modified by Sillvva)
-// @updateURL    https://sillvva.github.io/tampermonkey/ddb.moderator.js
-// @downloadURL  https://sillvva.github.io/tampermonkey/ddb.moderator.js
+// @updateURL    https://sillvva.github.io/tampermonkey/ddb.moderator.user.js
+// @downloadURL  https://sillvva.github.io/tampermonkey/ddb.moderator.user.js
 // @match        https://www.dndbeyond.com/homebrew/*
 // @match        https://www.dndbeyond.com/magic-items/*
 // @match        https://www.dndbeyond.com/spells/*
