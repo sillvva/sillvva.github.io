@@ -10,6 +10,7 @@
 // @grant        none
 // ==/UserScript==
 
+
 (function() {
     'use strict';
     // Set the page background so we know it's working
