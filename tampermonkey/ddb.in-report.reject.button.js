@@ -1,9 +1,11 @@
 // ==UserScript==
 // @name         D&D Beyond: In-Report Reject Button
 // @namespace    https://www.dndbeyond.com/
-// @version      0.2
+// @version      0.3
 // @description  Adds extra moderator options and links
 // @author       Sillvva
+// @updateURL    https://sillvva.github.io/tampermonkey/ddb.in-report.reject.button.js
+// @downloadURL  https://sillvva.github.io/tampermonkey/ddb.in-report.reject.button.js
 // @match        https://www.dndbeyond.com/cp/reports/*
 // @grant        none
 // ==/UserScript==
