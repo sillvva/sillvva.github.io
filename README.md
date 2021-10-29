@@ -1,9 +1,11 @@
-# sillvva.github.io
+# Tampermonkey Scripts
 
-[D&D Beyond Content Editor](https://sillvva.github.io/tampermonkey/ddb.content.editor.user.js)
+## D&D Beyond
 
-[D&D Beyond Moderator](https://sillvva.github.io/tampermonkey/ddb.moderator.user.js)
+[Content Editor](https://sillvva.github.io/tampermonkey/ddb.content.editor.user.js)
 
-[D&D Beyond Tweaks](https://sillvva.github.io/tampermonkey/ddb.tweaks.user.js)
+[Moderator](https://sillvva.github.io/tampermonkey/ddb.moderator.user.js)
 
-[D&D Beyond: In-Report Reject Button](https://sillvva.github.io/tampermonkey/ddb.in-report.reject.button.user.js)
+[General Tweaks](https://sillvva.github.io/tampermonkey/ddb.tweaks.user.js)
+
+[In-Report Reject Button](https://sillvva.github.io/tampermonkey/ddb.in-report.reject.button.user.js)
