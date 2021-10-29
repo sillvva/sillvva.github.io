@@ -1,7 +1,7 @@
 // ==UserScript==">
 // @name         D&D Beyond Tweaks
 // @namespace    http://dndbeyond.com/
-// @version      0.2
+// @version      0.3
 // @description  Adds quality of life changes
 // @author       Sillvva
 // @updateURL    https://sillvva.github.io/tampermonkey/ddb.tweaks.js
@@ -78,6 +78,38 @@ const ready = function() {
             img.style.border = "5px solid #f00";
         });
     }, 500);*/
+
+    if (inPages(['/forum'])) {
+        document.querySelectorAll('.forum-post.comment-user').forEach(post => {
+            const container = document.createElement('span');
+            container.classList.add('p-comment-actions');
+            container.style = 'float: right;'
+
+            const actions = document.createElement('span');
+            actions.classList.add('user-actions');
+            actions.style = 'background: transparent !important;';
+            container.appendChild(actions);
+
+            const usernameLink = post.querySelector('.j-comment-username a');
+            const username = usernameLink.innerText;
+
+            let user;
+            if (user = usernameLink.querySelector('.user')) {
+                user.style = 'max-width: 85%';
+            }
+
+            const manageUserLink = document.createElement('a');
+            manageUserLink.href = `/cp/users/${post.dataset.surrogateId}/edit#t1:moderate`;
+            manageUserLink.target = '_blank';
+            manageUserLink.innerHTML = '<i class="u-icon u-icon-edit"></i>';
+            manageUserLink.style = 'display: inline-flex;';
+            manageUserLink.classList.add('user-action');
+            manageUserLink.title = 'Manage User';
+            actions.appendChild(manageUserLink);
+
+            insertAfter(usernameLink, container);
+        });
+    }
 
     document.querySelectorAll('.magic-item-tooltip').forEach(mi => {
         mi.after(" (magic item)");
