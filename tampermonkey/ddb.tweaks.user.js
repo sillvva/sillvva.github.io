@@ -4,8 +4,8 @@
 // @version      0.3
 // @description  Adds quality of life changes
 // @author       Sillvva
-// @updateURL    https://sillvva.github.io/tampermonkey/ddb.tweaks.js
-// @downloadURL  https://sillvva.github.io/tampermonkey/ddb.tweaks.js
+// @updateURL    https://sillvva.github.io/tampermonkey/ddb.tweaks.user.js
+// @downloadURL  https://sillvva.github.io/tampermonkey/ddb.tweaks.user.js
 // @match        https://*.dndbeyond.com/*
 // @grant        none
 // ==/UserScript==
