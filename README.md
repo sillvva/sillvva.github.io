@@ -1,5 +1,7 @@
 # Tampermonkey Scripts
 
+Click the link to import the script directly into Tampermonkey.
+
 ### D&D Beyond
 
 - [Content Editor](https://sillvva.github.io/tampermonkey/ddb.content.editor.user.js)
