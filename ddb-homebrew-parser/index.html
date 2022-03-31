@@ -1,0 +1,182 @@
+<html>
+  <head>
+    <title>DDB Homebrew Parser</title>
+    <style>
+      * { box-sizing: border-box; background: #e8e8e8; }
+      div { font-family: sans-serif; }
+      body { margin: 0; }
+      textarea { padding: 10px; resize: none; outline: none; }
+
+      #input { 
+        border: 0;
+        border-bottom: 1px solid black;
+        position: absolute;
+        top: 0;
+        width: 100vw;
+        height: 50vh;
+      }
+
+      #output { 
+        border: 0;
+        padding: 10px;
+        position: absolute;
+        top: 50vh;
+        left: 0;
+        width: 50vw;
+        height: 50vh;
+      }
+
+      #output-rich { 
+        border-left: 1px solid black;
+        padding: 0 10px;
+        position: absolute;
+        top: 50vh;
+        right: 0;
+        width: 50vw;
+        height: 50vh;
+        overflow-y: auto;
+      }
+
+      .copied {
+        position: absolute; top: 0; bottom: calc(100% - 32px); left: 0; right: 0;
+        opacity: 0; animation: fade 1s linear; text-align: center;
+        font-size: 24px; font-weight: bold;
+      }
+
+      #output-container {
+        position: relative;
+      }
+
+      @keyframes fade {
+        0% { opacity: 0; top: 32px; }
+        50% { opacity: 1 }
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <textarea id="input" rows="20" cols="82" onchange="getData();" onkeyup="getData();">
+        Elemental Strike. Melee or Ranged Spell Attack: +4 to hit, reach 5 ft. or range 60 ft., one target. Hit: 10 (3d6 fire or cold damage (the apprentice’s choice).
+
+        Chromatic Flames (Recharge 5–6). The aspect exhales multicolored flames in a 300-foot cone. Each creature in that area must make a DC 27 Dexterity saving throw. On a failed save, the creature takes 71 (11d12) damage of a type of the aspect's choosing: acid, cold, fire, lightning, or poison. On a successful save, the creature takes half as much damage.
+
+        Confusing Burble. The jabberwock burbles to itself unless it is incapacitated. Any creature that starts its turn within 30 feet of the jabberwock and is able to hear its burbling must make a DC 18 Charisma saving throw. On a failed saving throw, the creature can’t take reactions until the start of its next turn, and it rolls a d4 to determine what it does during its current turn:
+
+        If Zariel dies, these effects fade over the course of 1d10 days.
+
+        Mace. Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) bludgeoning damage plus 18 (4d8) radiant damage.
+
+        Abyssal Rift (Recharge 5–6). Iggwilv opens a momentary Abyssal rift within 120 feet of her. The rift is a 20-foot-radius sphere. Each creature in that area must make a DC 22 Constitution saving throw, taking 40 (9d8) necrotic damage on a failed save, or half as much damage on a successful one. In addition, there is a 50 percent chance that 3 [monster]hezrou;hezrous[/monster] then appear in unoccupied spaces in the sphere. They act as Iggwilv’s allies, take their turns immediately after hers, and can’t summon other demons. They remain until they die or until Iggwilv dismisses them as an action.
+
+        Healing Touch (3/Day). The unicorn touches another creature with its horn. The target magically regains 11 (2d8 + 2) hit points. In addition, the touch removes all diseases and neutralizes all poisons afflicting the target.
+
+        Spellcasting. The recruiter casts one of the following spells, requiring no material components and using Charisma as the spellcasting ability (spell save DC 14):
+
+        At will: disguise self (test), silent image, thunderwave
+
+        2/day: charm person
+
+        1/day: suggestion
+      </textarea>
+    </div>
+    <div id="output-container">
+      <textarea id="output" rows="20" cols="82"></textarea>
+      <div id="output-rich"></div>
+    </div>
+    <script>
+      const dtypes = ['bludgeoning', 'piercing', 'slashing', 'acid', 'cold', 'fire', 'force', 'lightning', 'necrotic', 'poison', 'psychic', 'radiant', 'thunder'];
+
+      function getData() {
+        let tinput = document.getElementById("input").value;
+        tinput = tinput.replace(/\n+/g, "\n");
+        tinput = tinput.replace(/\n([a-z])/g, " $1");
+        tinput = tinput.replace("\nHit:", " Hit:");
+        let lines = tinput.split("\n").filter(l => l.trim());
+        lines = lines.map((line, li) => {
+          let input = line;
+
+          let name = (input.match(/^(([A-Z][^ ]+ ?){1,7}(\([^\)]+\))?\.)/gmi) || []).toString();
+          name = name.replace(/\.$/, "");
+          name = name.split('(')[0].trim();
+
+          input = input.replace(/([a-z])- ([a-z])/gi, "$1$2");
+          input = input.replace(/'/g, '’');
+          input = input.replace(/^(([A-Z0-9][^ .]+ ?){1,7}(\([^\)]+\))?\.)( (Melee|Ranged|Melee or Ranged) (Weapon|Spell) Attack:)?/gim, /(lair|legendary) actions/g.test(tinput) ? "<strong>$1</strong>" : "<em><strong>$1</strong>$4</em>");
+          input = input.replace(/Hit:/g, "<em>Hit:</em>");
+          input = input.replace(/Hit or Miss:/g, "<em>Hit or Miss:</em>");
+
+          input = input.replace(/(?<!\])(dash|disengange|help|hide|use an object|dodge|search|ready|cast a spell)(?= action|,)/gi, "[action]$1[/action]");
+          input = input.replace(/(attack) action/gi, "[action]$1[/action] action");
+          input = input.replace(/(?<!\])(truesight|blindsight|darkvision|tremorsense)/gi, "[sense]$1[/sense]");
+          input = input.replace(/(?<!\])(total cover|heavily obscured|lightly obscured)/gi, "[rule]$1[/rule]");
+          input = input.replace(/(?<!\])(blinded|charmed|deafened|exhaustion|frightened|grappled|incapacitated|invisible|paralyzed|petrified|poisoned|prone|restrained|stunned|unconscious)/gi, "[condition]$1[/condition]");
+          input = input.replace(/\((?<!\])(athletics|acrobatics|sleight of hand|stealth|arcana|history|investigation|nature|religion|animal handling|insight|medicine|perception|survival|deception|intimidation|performance|persuasion)\)?/gi, "([skill]$1[/skill])");
+
+          input = input.replace(/DC (\d+) \:/g, "DC $1):");
+          input = input.replace(/\(?(\d+d\d+( \+ \d+)?)\)? ? (\w)/g, "($1) $3");
+          input = input.replace(/(([\w\d -]+) )(\(Recharge (\d–)?\d\)?)/gmi, `$2 [rollable]$3;{"diceNotation":"1d6", "rollType":"recharge", "rollAction":"$2"}[/rollable]`);
+          input = input.replace(/((\+|\-)\d+) to hit/g, `[rollable]$1;{"diceNotation":"1d20$1", "rollType":"to hit", "rollAction":"${name}"}[/rollable] to hit`);
+          input = input.replace(/(regains \d+) \(([^\)]+)\) hit points/g, `$1 [rollable]($2);{"diceNotation":"$2", "rollType":"heal", "rollAction":"${name}"}[/rollable] hit points`);
+          input = input.replace(/(\d+) \(([^\)]+)\) ([^ ]+) damage/g, `$1 [rollable]($2);{"diceNotation":"$2", "rollType":"damage", "rollAction":"${name}", "rollDamageType":"$3"}[/rollable] $3 damage`);
+          input = input.replace(/by (\d+) \(([^\)]+)\)/g, `by $1 [rollable]($2);{"diceNotation":"$2", "rollType":"roll", "rollAction":"${name}"}[/rollable]`);
+          input = input.replace(/"(([^ ]+)( (\+|\-) (\d+)))"/gm, `"$2$4$5"`);
+          input = input.replace(/(gains?|rolls?) a (d\d+)/gm, `$1 a [rollable]$2;{"diceNotation":"1$2", "rollType":"roll", "rollAction":"${name}"}[/rollable]`);
+
+          const spellcasting = lines.findIndex(l => l.indexOf('Spellcasting. ') >= 0);
+
+          if (spellcasting >= 0 && spellcasting < li && (input.startsWith('At will:') || input.match(/\d+\/day( each)?\:/gi))) {
+            let parts = input.split(': ');
+            parts[1] = parts[1].split(/, (?![^(]*\))/gm);
+            for(let p in parts[1]) {
+              parts[1][p] = parts[1][p].replace(/^/gm, '[spell]').replace(/( \(|(?<!\))$)/gm, '[/spell]$1');
+            }
+            parts[1] = parts[1].join(', ');
+            input = parts.join(': ');
+          }
+
+          input = input.split('. ').map(sen => {
+            const regex = /\(([^\)]+)\) ([^0-9\.]+ )?damage( of a type)?/gm;
+            let m;
+            while ((m = regex.exec(sen)) !== null) {
+              if (m.index === regex.lastIndex) regex.lastIndex++;
+              const dmg = m[1].replace(/ /g, '');
+              dtypes.forEach(dtype => {
+                const pDType = dtype[0].toUpperCase() + dtype.substring(1);
+                sen = sen.replace(dtype, `[rollable]${dtype};{"diceNotation":"${dmg}", "rollType":"damage", "rollAction":"${name} (${pDType})", "rollDamageType":"${dtype}"}[/rollable]`);
+              })
+            }
+            return sen;
+          }).join('. ');
+
+          let m;
+          do {
+            m = input.match(/\(?(?<!\]|(\]\()|(:"))(\d+d\d+( ?(\+|-) ?\d)?)\)? (\w+)/m);
+            if (m) {
+              name = m[6][0].toUpperCase() + m[6].substring(1);
+              input = input.replace(new RegExp(m[0], "gm"), `[rollable]${m[3]};{"diceNotation":"${m[3]}", "rollType":"roll", "rollAction":"${name}"}[/rollable] ${m[6]}`)
+            }
+          } while (m);
+
+          if (['Lair Actions','Regional Effects'].includes(input)) input = input.replace(/^(.+)$/gm, "<h4>$1</h4>");
+          else if (input.match(/^(At will|\d+\/day).+$/gmi)) input = input.replace(/^(.+)$/gm, "<p>$1</p>");
+          else if (input.length < 40) input = input.replace(/^(.+)$/gm, "<h3>$1</h3>");
+          else input = input.replace(/^(.+)$/gm, "<p>$1</p>");
+          return input;
+        });
+
+        $('#output').val(lines.join("\n"))
+        $('#output-rich').html(lines.join("\n"))
+      }
+
+      getData();
+
+      $('#output').on('click', function() {
+        $(this)[0].select();
+        document.execCommand("copy")
+
+        $('.copied').remove();
+        $('<div class="copied">Copied!</div>').appendTo('#output-container');
+      });
+    </script>
+  </body>
+</html>
