@@ -90,7 +90,7 @@
         let tinput = document.getElementById("input").value;
         tinput = tinput.replace(/\n+/g, "\n");
         tinput = tinput.replace(/\n([a-z])/g, " $1");
-        tinput = tinput.replace("\nHit:", " Hit:");
+        tinput = tinput.replace(/\nHit\:/g, " Hit:");
         let lines = tinput.split("\n").filter(l => l.trim());
         lines = lines.map((line, li) => {
           let input = line;
@@ -123,8 +123,7 @@
           input = input.replace(/(gains?|rolls?) a (d\d+)/gm, `$1 a [rollable]$2;{"diceNotation":"1$2", "rollType":"roll", "rollAction":"${name}"}[/rollable]`);
 
           const spellcasting = lines.findIndex(l => l.indexOf('Spellcasting. ') >= 0);
-
-          if (spellcasting >= 0 && spellcasting < li && (input.startsWith('At will:') || input.match(/\d+\/day( each)?\:/gi))) {
+          if (spellcasting >= 0 && spellcasting < li && (input.startsWith('At will:') || input.match(/(\d+\/day( each)?|\d+\w+ level \(\d slots?\))\:/gi))) {
             let parts = input.split(': ');
             parts[1] = parts[1].split(/, (?![^(]*\))/gm);
             for(let p in parts[1]) {
@@ -148,14 +147,15 @@
             return sen;
           }).join('. ');
 
-          let m;
+          let m, limit = 0;
           do {
             m = input.match(/\(?(?<!\]|(\]\()|(:"))(\d+d\d+( ?(\+|-) ?\d)?)\)? (\w+)/m);
             if (m) {
               name = m[6][0].toUpperCase() + m[6].substring(1);
-              input = input.replace(new RegExp(m[0], "gm"), `[rollable]${m[3]};{"diceNotation":"${m[3]}", "rollType":"roll", "rollAction":"${name}"}[/rollable] ${m[6]}`)
+              input = input.replace(m[0], `[rollable]${m[3]};{"diceNotation":"${m[3]}", "rollType":"roll", "rollAction":"${name}"}[/rollable] ${m[6]}`)
             }
-          } while (m);
+          limit++;
+          } while (m && limit < 50);
 
           if (['Lair Actions','Regional Effects'].includes(input)) input = input.replace(/^(.+)$/gm, "<h4>$1</h4>");
           else if (input.match(/^(At will|\d+\/day).+$/gmi)) input = input.replace(/^(.+)$/gm, "<p>$1</p>");
