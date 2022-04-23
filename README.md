@@ -12,3 +12,7 @@ Click the link to import the script directly into Tampermonkey.
 - [Moderator](https://sillvva.github.io/tampermonkey/ddb.moderator.user.js)
 - [General Tweaks](https://sillvva.github.io/tampermonkey/ddb.tweaks.user.js)
 - [In-Report Reject Button](https://sillvva.github.io/tampermonkey/ddb.in-report.reject.button.user.js)
+
+### Facebook
+
+- [Remove Sponsored Posts on Facebook](https://sillvva.github.io/tampermonkey/no-facebook-ads.user.js)
