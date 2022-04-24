@@ -2,7 +2,7 @@
 // @name         Hide Posts on Facebook
 // @description  Hide Posts on Facebook
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @author       matt.dekok@gmail.com
 // @match        https://www.facebook.com
 // @grant        none
