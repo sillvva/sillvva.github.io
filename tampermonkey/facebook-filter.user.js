@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Hide Sponsored Posts on Facebook
-// @description  Hide Sponsored Posts on Facebook
+// @name         Hide Posts on Facebook
+// @description  Hide Posts on Facebook
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @author       matt.dekok@gmail.com
@@ -9,7 +9,13 @@
 // @require      https://cdnjs.cloudflare.com/ajax/libs/arrive/2.4.1/arrive.min.js
 // ==/UserScript==
 
-const isSponsored = (article) => {
+const filters = [
+    /sponsored/g,
+    /\b(nfl|nhl|nba)\b/g,
+    /football|basketball|baseball|hockey/g
+];
+
+const isFiltered = (article) => {
     let text = [];
 
     article.querySelectorAll('a[href="#"]').forEach((link) => {
@@ -20,12 +26,20 @@ const isSponsored = (article) => {
         text.push(link.innerText.replace(/-/g,"").toLowerCase());
     });
 
-    return text.find(t => t.includes('sponsored'));
+    article.querySelectorAll('[role="link"]').forEach((link) => {
+        text.push(link.text.toLowerCase());
+    });
+
+    article.querySelectorAll('[data-ad-preview="message"]').forEach((link) => {
+        text.push(link.innerText.toLowerCase());
+    });
+
+    return !!text.find(t => !!filters.find(f => f.test(t)));
 };
 
 const checkAndHide = (article) => {
-    if (isSponsored(article)) {
-        console.log('Hiding a sponsored post');
+    if (isFiltered(article)) {
+        console.log('Hiding a post');
         article.style.display='none';
     }
 };
