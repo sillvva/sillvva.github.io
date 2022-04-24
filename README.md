@@ -15,4 +15,4 @@ Click the link to import the script directly into Tampermonkey.
 
 ### Facebook
 
-- [Remove Sponsored Posts on Facebook](https://sillvva.github.io/tampermonkey/no-facebook-ads.user.js)
+- [Filter Posts on Facebook](https://sillvva.github.io/tampermonkey/facebook-filter.user.js)
