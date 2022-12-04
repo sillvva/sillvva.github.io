@@ -1,0 +1,5 @@
+@document url-prefix("https://www.dndbeyond.com/") {
+    blockquote blockquote blockquote blockquote {
+        display: none !important;
+    }
+}
