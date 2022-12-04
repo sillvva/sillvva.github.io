@@ -1,7 +1,7 @@
 // ==UserScript==">
 // @name         D&D Beyond Tweaks
 // @namespace    http://dndbeyond.com/
-// @version      0.3
+// @version      0.4
 // @description  Adds quality of life changes
 // @author       Sillvva
 // @updateURL    https://sillvva.github.io/tampermonkey/ddb.tweaks.user.js
@@ -36,9 +36,9 @@ const ready = function() {
 
     if (inPages(['/sources', '/races', '/vecna', '/classes'])) {
         // For bookmarkable section headers, create a link that can be bookmarked
-        var nodeList = document.querySelectorAll('.primary-content h1[id], .primary-content h2[id], .primary-content h3[id], .primary-content h4[id]');
+        const nodeList = document.querySelectorAll('.primary-content h1[id], .primary-content h2[id], .primary-content h3[id], .primary-content h4[id]');
         for (i = 0; i < nodeList.length; i++) {
-            nodeList[i].innerHTML += '<a href="#'+nodeList[i].id+'" style="float: right;">Link</a>';
+            nodeList[i].innerHTML += '<a href="#'+nodeList[i].id+'" class="no-select" style="float: right;">Link</a>';
         }
     }
 
@@ -47,6 +47,12 @@ const ready = function() {
                  '    display: block;' +
                  '    width: 600px !important;' +
                  '}');
+        setInterval(() => {
+            const nodeList = document.querySelectorAll('.forum-thread-row a:not([target])');
+            for (i = 0; i < nodeList.length; i++) {
+                nodeList[i].setAttribute('target', '_blank');
+            }
+        }, 500);
     }
 
     if (!inPages(['/profile','/marketplace'])) {
@@ -60,6 +66,36 @@ const ready = function() {
                  '    top: 64px;' +
                  '    z-index: 2000;' +
                  '}');
+        addStyle('.sidebar-menu {' +
+                 '    position: sticky !important;' +
+                 '    top: 120px !important;'+
+                 '    max-height: calc(100vh - 122px) !important;'+
+                 '    overflow-y: auto !important;'+
+                 '    overflow-x: hidden !important;'+
+                 '}');
+    }
+
+    if (inPages(['/forums/d-d-beyond-general/bugs-support/65846-display-name-change-request-thread-v2'])) {
+        setTimeout(() => {
+            const posts = Array.from(document.querySelectorAll('li.p-comments'));
+            const unread = posts.filter(post => !post.querySelectorAll('.public-message').length);
+            if (unread[0]) {
+                const id = unread[0].querySelector('.forum-post').id;
+                jump(id);
+            }
+            else {
+                const nextExists = !!document.querySelector('.b-pagination-item-next');
+                if (nextExists && confirm('No unread found. Jump to next page?')) {
+                    const urlParams = new URLSearchParams(location.search.slice(1));
+                    const currPage = urlParams.get('page');
+                    const nextPage = parseInt(currPage) + 1;
+                    location.href = location.href.replace(location.search, '?page='+nextPage);
+                }
+                else {
+                    window.scrollTo(0,document.body.scrollHeight - 1600);
+                }
+            }
+        }, 1000);
     }
 
     /*setTimeout(function() {
@@ -151,7 +187,7 @@ var parseURL = function(url) {
     };
 };
 
-var addStyle = function(newStyle) {
+const addStyle = function(newStyle) {
     var styleElement = document.getElementById('styles_js');
     if (!styleElement) {
         styleElement = document.createElement('style');
@@ -162,7 +198,7 @@ var addStyle = function(newStyle) {
     styleElement.appendChild(document.createTextNode(newStyle));
 };
 
-var inPages = function(pages) {
+const inPages = function(pages) {
     var url = parseURL(window.location.href);
     if (pages instanceof Array) {
         for(var i = 0; i < pages.length; i++) {
@@ -175,8 +211,12 @@ var inPages = function(pages) {
     }
 };
 
-var insertAfter = function(referenceNode, newNode) {
+const insertAfter = function(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 };
+
+const jump = function(h) {
+    location.href = "#"+h;
+}
 
 ready();
