@@ -12,6 +12,7 @@ Click the link to import the script directly into Tampermonkey.
 - [Moderator](https://github.com/sillvva/sillvva.github.io/raw/main/tampermonkey/ddb.moderator.user.js)
 - [General Tweaks](https://github.com/sillvva/sillvva.github.io/raw/main/tampermonkey/ddb.tweaks.user.js)
 - [In-Report Reject Button](https://github.com/sillvva/sillvva.github.io/raw/main/tampermonkey/ddb.in-report.reject.button.user.js)
+- [Custom Styles](https://github.com/sillvva/sillvva.github.io/raw/main/userstyles/ddb-custom.css)
 
 ### Social Media
 
