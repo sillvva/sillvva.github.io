@@ -1,11 +1,9 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      2.7
+// @version      2.8
 // @description  Adds extra moderator options and links
 // @author       Stormknight (modified by Sillvva)
-// @updateURL    https://sillvva.github.io/tampermonkey/ddb.moderator.user.js
-// @downloadURL  https://sillvva.github.io/tampermonkey/ddb.moderator.user.js
 // @match        https://www.dndbeyond.com/homebrew/*
 // @match        https://www.dndbeyond.com/magic-items/*
 // @match        https://www.dndbeyond.com/spells/*
@@ -160,7 +158,7 @@ function addRejectButton(nodeName) {
         var userCPURL = "https://www.dndbeyond.com/cp/users/"+userID+"-"+userName+"/edit";
 
         // Now we want a link to view all homebrew from this user.
-        var userHomebrewURL = "https://www.dndbeyond.com/cp/homebrew/approved?filter-author=monkeychickenking&filter-author-previous=" + userName + "&filter-author-symbol=" + userID + "&filter-type=&filter-name=";
+        var userHomebrewURL = "https://www.dndbeyond.com/cp/homebrew/approved?filter-author=" + userName + "&filter-author-previous=" + userName + "&filter-author-symbol=" + userID + "&filter-type=&filter-name=";
         // Change the contents of the userNameTag
         userNameTag.innerHTML = "<a href=\"" + userProfileURL + "\" target=\"_blank\">" + userName + "'s profile</a> [<a href=\""+userCPURL+"\" target=\"_blank\">CP</a>]<br /><a href=\"" + userHomebrewURL + "\" target=\"_blank\">View user's other homebrew</a>";
         userNameTag.children[0].style.color = "#47D18C";
