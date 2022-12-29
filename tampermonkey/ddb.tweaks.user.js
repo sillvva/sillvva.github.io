@@ -1,7 +1,7 @@
 // ==UserScript==">
 // @name         D&D Beyond Tweaks
 // @namespace    http://dndbeyond.com/
-// @version      0.4
+// @version      0.31
 // @description  Adds quality of life changes
 // @author       Sillvva
 // @updateURL    https://sillvva.github.io/tampermonkey/ddb.tweaks.user.js
@@ -34,13 +34,13 @@ const ready = function() {
         if (cbmf) cbmf.style.margin = '0';
     }
 
-    if (inPages(['/sources', '/races', '/vecna', '/classes'])) {
+    /*if (inPages(['/sources', '/races', '/vecna', '/classes'])) {
         // For bookmarkable section headers, create a link that can be bookmarked
         const nodeList = document.querySelectorAll('.primary-content h1[id], .primary-content h2[id], .primary-content h3[id], .primary-content h4[id]');
         for (i = 0; i < nodeList.length; i++) {
             nodeList[i].innerHTML += '<a href="#'+nodeList[i].id+'" class="no-select" style="float: right;">Link</a>';
         }
-    }
+    }*/
 
     if (inPages('/new-content')) {
         addStyle('.select2-container {' +
@@ -53,6 +53,11 @@ const ready = function() {
                 nodeList[i].setAttribute('target', '_blank');
             }
         }, 500);
+    }
+
+    if (inPages('/cp/users')) {
+        const cb = document.querySelector('input#field-add-nickname-credit:not([disabled])');
+        if (cb) cb.setAttribute("checked","checked");
     }
 
     if (!inPages(['/profile','/marketplace'])) {
@@ -78,7 +83,7 @@ const ready = function() {
     if (inPages(['/forums/d-d-beyond-general/bugs-support/65846-display-name-change-request-thread-v2'])) {
         setTimeout(() => {
             const posts = Array.from(document.querySelectorAll('li.p-comments'));
-            const unread = posts.filter(post => !post.querySelectorAll('.public-message').length);
+            const unread = posts.filter(post => !post.querySelectorAll('.comment-deleted').length && !post.querySelectorAll('.comment-deleted-with-note').length && !post.querySelectorAll('.public-message').length);
             if (unread[0]) {
                 const id = unread[0].querySelector('.forum-post').id;
                 jump(id);
