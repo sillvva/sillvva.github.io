@@ -105,11 +105,15 @@ const ready = function() {
                 jump(id);
             }
             else {
+                const pageList = document.querySelector('.listing-container .b-pagination-list');
+                const pages = pageList.querySelectorAll('li:not(.b-pagination-item-next, .b-pagination-item-prev, .dots)');
+                const lastPage = pages.item(pages.length - 1);
                 const nextExists = !!document.querySelector('.b-pagination-item-next');
-                if (nextExists && confirm('No unread found. Jump to next page?')) {
+                if (nextExists && confirm('No unread found. Jump to last page?')) {
                     const urlParams = new URLSearchParams(location.search.slice(1));
                     const currPage = urlParams.get('page');
-                    const nextPage = parseInt(currPage) + 1;
+                    // const nextPage = parseInt(currPage) + 1;
+                    const nextPage = lastPage.innerText;
                     location.href = location.href.replace(location.search, '?page='+nextPage);
                 }
                 else {
