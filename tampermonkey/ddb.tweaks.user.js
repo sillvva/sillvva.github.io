@@ -80,6 +80,22 @@ const ready = function() {
                  '}');
     }
 
+    if (inPages('/cp/users')) {
+        const cb = document.querySelector('input#field-add-nickname-credit:not([disabled])');
+        if (cb) cb.setAttribute("checked","checked");
+
+        const banType = document.querySelector("select#field-ban-type");
+        banType.onchange = function() {
+            if (this.value == 4) {
+                setTimeout(() => {
+                    document.querySelectorAll("div#form-field-forum input").forEach(input => {
+                        input.setAttribute("checked", "checked");
+                    });
+                }, 250);
+            }
+        }
+    }
+
     if (inPages(['/forums/d-d-beyond-general/bugs-support/65846-display-name-change-request-thread-v2'])) {
         setTimeout(() => {
             const posts = Array.from(document.querySelectorAll('li.p-comments'));
