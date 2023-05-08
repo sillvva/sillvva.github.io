@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         D&D Beyond Moderator
+// @name         D&D Beyond Homebrew Moderator
 // @namespace    http://dndbeyond.com/
 // @version      2.8
 // @description  Adds extra moderator options and links
