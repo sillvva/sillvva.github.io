@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.12
+// @version      3.0.13
 // @description  Adds extra moderator options and links
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
 // @updateURL  	 https://sillvva.github.io/tampermonkey/ddbmod.user.js
 // @require      https://sillvva.github.io/tampermonkey/shared.js
+// @run-at       document-idle
 // @author       Sillvva
 // @match        https://www.dndbeyond.com/*
 // @grant        none
@@ -294,7 +295,7 @@ if (inPages("/homebrew", "/magic-items", "/spells", "/monsters", "/feats", "/bac
 			userNameTag.style.textAlign = "right";
 		}
 	}
-	
+
 	// example full url for homebrew rejection
 	// https://www.dndbeyond.com/cp/homebrew/reject?entityTypeId=112130694&id=11938
 	// requires two parameters:
