@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         D&D Beyond Tweaks
 // @namespace    http://dndbeyond.com/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Adds extra tweaks for D&D Beyond
+// @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbtweaks.user.js
 // @updateURL  	 https://sillvva.github.io/tampermonkey/ddbtweaks.user.js
 // @require      https://sillvva.github.io/tampermonkey/shared.js

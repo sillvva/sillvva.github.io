@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.14
+// @version      3.0.15
 // @description  Adds extra moderator options and links
+// @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
 // @updateURL  	 https://sillvva.github.io/tampermonkey/ddbmod.user.js
 // @require      https://sillvva.github.io/tampermonkey/shared.js
