@@ -1,19 +1,16 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.13
+// @version      3.0.14
 // @description  Adds extra moderator options and links
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
 // @updateURL  	 https://sillvva.github.io/tampermonkey/ddbmod.user.js
 // @require      https://sillvva.github.io/tampermonkey/shared.js
-// @run-at       document-idle
+// @run-at       document-body
 // @author       Sillvva
 // @match        https://www.dndbeyond.com/*
 // @grant        none
 // ==/UserScript==
-
-"use strict";
-let itvl = {};
 
 // Campaign
 if (inPages("/campaigns")) {

@@ -1,3 +1,6 @@
+"use strict";
+let itvl = {};
+
 const parseURL = function (url) {
 	let parser = document.createElement("a"),
 		searchObject = {},
