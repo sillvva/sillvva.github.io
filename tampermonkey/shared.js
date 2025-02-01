@@ -1,5 +1,4 @@
 "use strict";
-let itvl = {};
 
 const parseURL = function (url) {
 	let parser = document.createElement("a"),
@@ -30,7 +29,7 @@ const parseURL = function (url) {
 
 const inPages = function (...pages) {
 	const url = parseURL(window.location.href);
-	return pages.find((page) => url.pathname.indexOf(page) === 0);
+	return pages.find((page) => page instanceof RegExp ? page.test(url.pathname) : url.pathname.indexOf(page) === 0);
 };
 
 const addStyle = function (newStyle) {
