@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Tweaks
 // @namespace    http://dndbeyond.com/
-// @version      1.0.3
+// @version      1.0.4
 // @description  Adds extra tweaks for D&D Beyond
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbtweaks.user.js
@@ -13,10 +13,12 @@
 // @grant        none
 // ==/UserScript==
 
+// Adds a label to magic item tooltips to make them searchable
 document.querySelectorAll(".magic-item-tooltip").forEach((mi) => {
   mi.after(" (magic item)");
 });
 
+// Adds a glow around the inspiration button when it is checked
 if (inPages(/\/characters\/\d+/)) {
   addStyle(`
     [data-testid="inspiration"][aria-checked="true"] {
