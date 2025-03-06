@@ -55,6 +55,7 @@ const focusInput = function (selector) {
 	return new Promise((resolve) => {
 		window.ktimer = setInterval(() => {
 			const input = document.querySelector(selector);
+			if (!input) return;
 			input.focus();
 			input.select();
 			if (input === document.activeElement) {
