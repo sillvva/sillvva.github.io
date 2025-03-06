@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.16
+// @version      3.0.17
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -361,25 +361,6 @@ if (inPages("/homebrew", "/magic-items", "/spells", "/monsters", "/feats", "/bac
 	}
 }
 
-// Moderate Users
-if (inPages("/cp/users")) {
-	const cb = document.querySelector("input#field-add-nickname-credit:not([disabled])");
-	if (cb) cb.setAttribute("checked", "checked");
-
-	focusInput("input#field-nickname");
-
-	const banType = document.querySelector("select#field-ban-type");
-	banType.onchange = function () {
-		if (this.value == 4) {
-			setTimeout(() => {
-				document.querySelectorAll("div#form-field-forum input").forEach((input) => {
-					input.setAttribute("checked", "checked");
-				});
-			}, 250);
-		}
-	};
-}
-
 // Reports
 if (inPages("/cp/reports")) {
 	document.querySelector("body").addEventListener("keyup", (e) => {
@@ -518,6 +499,32 @@ if (inPages("/forums/d-d-beyond-general/bugs-support/65846-display-name-change-r
 			}, 1000);
 		}
 	}
+}
+
+// Moderate Users
+if (inPages("/cp/users")) {
+	const cb = document.querySelector("input#field-add-nickname-credit:not([disabled])");
+	if (cb) cb.setAttribute("checked", "checked");
+
+	focusInput("input#field-nickname").then(input => {
+		if (!input) return;
+		const usernameField = document.querySelector("#field-manual-user-rename");
+		if (!usernameField) return;
+		input.addEventListener("input", function (el) {
+			usernameField.value = el.target.value;
+		});
+	});
+
+	const banType = document.querySelector("select#field-ban-type");
+	banType.onchange = function () {
+		if (this.value == 4) {
+			setTimeout(() => {
+				document.querySelectorAll("div#form-field-forum input").forEach((input) => {
+					input.setAttribute("checked", "checked");
+				});
+			}, 250);
+		}
+	};
 }
 
 // Forum Tweaks

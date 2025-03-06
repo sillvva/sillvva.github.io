@@ -52,12 +52,19 @@ const jump = function (h) {
 };
 
 const focusInput = function (selector) {
-	window.ktimer = setInterval(() => {
-		const input = document.querySelector(selector);
-		input.focus();
-		input.select();
-		if (input === document.activeElement) {
+	return new Promise((resolve) => {
+		window.ktimer = setInterval(() => {
+			const input = document.querySelector(selector);
+			input.focus();
+			input.select();
+			if (input === document.activeElement) {
+				resolve(input);
+				clearInterval(window.ktimer);
+			}
+		}, 100);
+		setTimeout(() => {
 			clearInterval(window.ktimer);
-		}
-	}, 100);
+			resolve(null);
+		}, 5000);
+	});
 };
