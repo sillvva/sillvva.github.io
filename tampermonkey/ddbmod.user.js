@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.17
+// @version      3.0.19
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -26,39 +26,6 @@ if (inPages("/campaigns")) {
 		inviteLink.innerHTML = "";
 		inviteLink.appendChild(link);
 	}
-}
-
-// Reddit Spam
-if (inPages("/forums")) {
-	// .forum-posts > header.h2 > h2
-	const headerEl = document.querySelector(".forum-posts > header.h2");
-	if (headerEl) {
-		const titleEl = headerEl.querySelector("h2");
-		if (titleEl) {
-			const title = encodeURIComponent(titleEl.innerText);
-			var targetURL = 'https://www.google.com/search?q=site%3Areddit.com+"' + title + '"';
-			const userActions = headerEl.querySelector(".user-actions");
-			if (userActions) {
-				const action = document.createElement("LI");
-				action.classList.add("user-action");
-				action.classList.add("b-userAction-item");
-				action.classList.add("user-action-reply");
-
-				const actionLink = document.createElement("A");
-				actionLink.setAttribute("href", targetURL);
-				actionLink.setAttribute("target", "_blank");
-				action.append(actionLink);
-
-				const actionLabel = document.createElement("SPAN");
-				actionLabel.classList.add("label");
-				actionLabel.innerText = "REDDIT";
-				actionLink.append(actionLabel);
-
-				userActions.prepend(action);
-			}
-		}
-	}
-	// javascript: (() => {    var string = document.querySelector("#content > section > div > div.p-comments.p-comments-b.forum-posts > header > h2").textContent.trim();    var targetURL = "https://www.google.com/search?q=site%3Areddit.com+\"" + string +"\"";    window.open(targetURL);})();
 }
 
 // Homebrew Reject Reasons
@@ -515,20 +482,50 @@ if (inPages("/cp/users")) {
 		});
 	});
 
-	const banType = document.querySelector("select#field-ban-type");
-	banType.onchange = function () {
-		if (this.value == 4) {
-			setTimeout(() => {
-				document.querySelectorAll("div#form-field-forum input").forEach((input) => {
-					input.setAttribute("checked", "checked");
-				});
-			}, 250);
-		}
-	};
+	getQuerySelector("select#field-ban-type").then(banType => {
+		banType.onchange = function () {
+			if (this.value == 4) {
+				setTimeout(() => {
+					document.querySelectorAll("div#form-field-forum input").forEach((input) => {
+						input.setAttribute("checked", "checked");
+					});
+				}, 250);
+			}
+		};
+	});
 }
 
 // Forum Tweaks
-if (inPages("/forum")) {
+if (inPages("/forums")) {
+	// Reddit Spam
+	const headerEl = document.querySelector(".forum-posts > header.h2");
+	if (headerEl) {
+		const titleEl = headerEl.querySelector("h2");
+		if (titleEl) {
+			const title = encodeURIComponent(titleEl.innerText);
+			var targetURL = 'https://www.google.com/search?q=site%3Areddit.com+"' + title + '"';
+			const userActions = headerEl.querySelector(".user-actions");
+			if (userActions) {
+				const action = document.createElement("LI");
+				action.classList.add("user-action");
+				action.classList.add("b-userAction-item");
+				action.classList.add("user-action-reply");
+
+				const actionLink = document.createElement("A");
+				actionLink.setAttribute("href", targetURL);
+				actionLink.setAttribute("target", "_blank");
+				action.append(actionLink);
+
+				const actionLabel = document.createElement("SPAN");
+				actionLabel.classList.add("label");
+				actionLabel.innerText = "REDDIT";
+				actionLink.append(actionLabel);
+
+				userActions.prepend(action);
+			}
+		}
+	}
+
 	document.querySelectorAll(".forum-post.comment-user").forEach((post) => {
 		const container = document.createElement("span");
 		container.classList.add("p-comment-actions");
