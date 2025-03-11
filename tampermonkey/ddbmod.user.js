@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.19
+// @version      3.0.20
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -472,17 +472,45 @@ if (inPages("/forums/d-d-beyond-general/bugs-support/65846-display-name-change-r
 if (inPages("/cp/users")) {
 	const cb = document.querySelector("input#field-add-nickname-credit:not([disabled])");
 	if (cb) cb.setAttribute("checked", "checked");
+	
+	getQuerySelector("#form-field-nickname").then(nicknameField => {
+		// Create the checkbox field below
+		const checkboxField = document.createElement("div");
+		checkboxField.classList.add("form-field");
+		checkboxField.classList.add("form-field-boolean-field");
+		checkboxField.id = "form-field-namelink";
+		nicknameField.after(checkboxField);
+		
+		// Create the checkbox input
+		const checkboxInput = document.createElement("input");
+		checkboxInput.type = "checkbox";
+		checkboxInput.id = "field-namelink";
+		checkboxInput.checked = true;
+		checkboxField.appendChild(checkboxInput);
 
-	focusInput("input#field-nickname").then(input => {
-		if (!input) return;
-		const usernameField = document.querySelector("#field-manual-user-rename");
-		if (!usernameField) return;
-		input.addEventListener("input", function (el) {
-			usernameField.value = el.target.value;
+		// Create the label
+		const label = document.createElement("label");
+		label.setAttribute("for", "field-namelink");
+		label.innerHTML = '<span title="" class="">Link Username and Nickname</span>';
+		checkboxField.appendChild(label);
+
+		const link = document.querySelector("#field-namelink");
+		if (!link) return;
+		
+		focusInput("input#field-nickname").then(input => {
+			if (!input) return;
+			const usernameField = document.querySelector("#field-manual-user-rename");
+			if (!usernameField) return;
+			input.addEventListener("input", function (el) {
+				if (link.checked) {
+					usernameField.value = el.target.value;
+				}
+			});
 		});
 	});
 
 	getQuerySelector("select#field-ban-type").then(banType => {
+		if (!banType) return;
 		banType.onchange = function () {
 			if (this.value == 4) {
 				setTimeout(() => {
@@ -493,6 +521,7 @@ if (inPages("/cp/users")) {
 			}
 		};
 	});
+
 }
 
 // Forum Tweaks

@@ -61,16 +61,18 @@ const focusInput = function (selector) {
 };
 
 const getQuerySelector = function (id) {
-	return new Promise((resolve) => {
-		window.ktimer = setInterval(() => {
+	return new Promise((resolve, reject) => {
+		let ktimer = setInterval(() => {
 			const element = document.querySelector(id);
 			if (!element) return;
 			resolve(element);
-			clearInterval(window.ktimer);
+			clearInterval(ktimer);
+			ktimer = null;
 		}, 100);
 		setTimeout(() => {
-			clearInterval(window.ktimer);
-			resolve(null);
+			if (!ktimer) return;
+			clearInterval(ktimer);
+			reject(null);
 		}, 5000);
 	});
 };
