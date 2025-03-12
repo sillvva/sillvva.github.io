@@ -60,18 +60,20 @@ const focusInput = function (selector) {
 };
 
 const getQuerySelector = function (id) {
+	let totalTime = 0;
+	let interval = 100;
 	return new Promise((resolve, reject) => {
 		let ktimer = setInterval(() => {
 			const element = document.querySelector(id);
-			if (!element) return;
-			resolve(element);
-			clearInterval(ktimer);
-			ktimer = null;
-		}, 100);
-		setTimeout(() => {
-			if (!ktimer) return;
-			clearInterval(ktimer);
-			reject(null);
-		}, 5000);
+			totalTime += interval;
+			if (element) {
+				clearInterval(ktimer);
+				resolve(element);
+			}
+			else if (totalTime >= 5000) {
+				clearInterval(ktimer);
+				reject(id);
+			}
+		}, interval);
 	});
 };
