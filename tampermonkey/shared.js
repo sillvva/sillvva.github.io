@@ -53,7 +53,6 @@ const jump = function (h) {
 
 const focusInput = function (selector) {
 	return getQuerySelector(selector).then(input => {
-		if (!input) return null;
 		input.focus();
 		input.select();
 		return input;

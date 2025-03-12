@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.20
+// @version      3.0.21
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -498,7 +498,6 @@ if (inPages("/cp/users")) {
 		if (!link) return;
 		
 		focusInput("input#field-nickname").then(input => {
-			if (!input) return;
 			const usernameField = document.querySelector("#field-manual-user-rename");
 			if (!usernameField) return;
 			input.addEventListener("input", function (el) {
@@ -510,7 +509,6 @@ if (inPages("/cp/users")) {
 	});
 
 	getQuerySelector("select#field-ban-type").then(banType => {
-		if (!banType) return;
 		banType.onchange = function () {
 			if (this.value == 4) {
 				setTimeout(() => {
@@ -521,7 +519,6 @@ if (inPages("/cp/users")) {
 			}
 		};
 	});
-
 }
 
 // Forum Tweaks
