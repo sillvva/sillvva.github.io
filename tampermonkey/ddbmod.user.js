@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.22
+// @version      3.0.23
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -101,7 +101,7 @@ if (inPages("/cp/homebrew/reject")) {
 	inappBtn.classList.add("button");
 	inappBtn.onclick = function () {
 		reason.value = 2;
-		notes.value = `Content must be appropriate for young audiences. You are welcome to use these privately, but they will not be allowed as published homebrew.`;
+		notes.value = `Content must be appropriate and follow site rules. You are welcome to use these privately, but they will not be allowed as published homebrew.`;
 		return !!autoSave;
 	};
 	rejectForm.appendChild(inappBtn);
