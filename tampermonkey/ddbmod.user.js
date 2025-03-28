@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.24
+// @version      3.0.25
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -231,7 +231,7 @@ if (inPages("/homebrew", "/magic-items", "/spells", "/monsters", "/feats", "/bac
 			var userIdTag = document.querySelector(`${nodeName} .rating-up`);
 			var userID = userIdTag.getAttribute("data-user-id");
 			// Extract the user-id from that tag.
-			var userNameTag = document.querySelector(`${nodeName} .source-description`);
+			var userNameTag = document.querySelector(`${nodeName} .source-description`) || document.querySelector(`${nodeName} .source-summary`);
 			var userName = userNameTag.innerText;
 			var userProfileURL = "https://www.dndbeyond.com/members/" + userName;
 			var userCPURL = "https://www.dndbeyond.com/cp/users/" + userID + "-" + userName + "/edit";
