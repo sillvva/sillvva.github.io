@@ -171,7 +171,7 @@ if (inPages("/cp/homebrew/reject")) {
 }
 
 // Homebrew Reject Buttons
-if (inPages("/homebrew", "/magic-items", "/spells", "/monsters", "/feats", "/backgrounds", "/races", "/subraces", "/subclasses", "/equipment")) {
+if (inPages("/homebrew", "/magic-items", "/spells", "/monsters", "/feats", "/backgrounds", "/races", "/species", "/subraces", "/subclasses", "/equipment")) {
 	function addRejectButton(nodeName) {
 		if (nodeName) {
 			const moreInfo = document.querySelector(nodeName);
