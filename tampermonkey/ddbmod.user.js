@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.26
+// @version      3.0.27
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -354,10 +354,10 @@ if (inPages("/cp/reports")) {
 			monsters: 779871897,
 			races: 1743923279,
 			species: 1743923279,
-			"species-options": 1743923279,
 			spells: 1118725998,
 			subclasses: 789467139,
 			subraces: 1228963568,
+			"species-options": 1228963568
 		}[explodedLink[1]];
 		const params = hbLink.searchParams;
 		const pComment = params.get("comment");
