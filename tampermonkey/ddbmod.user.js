@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.27
+// @version      3.0.28
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -586,7 +586,10 @@ if (inPages("/forums")) {
 }
 
 addStyle(`
-	.p-comments .p-comment-post:not(.mod-collection).comment-deleted .p-comment-wrapper, .p-comments .p-comment-post:not(.mod-collection).comment-mute-banned .p-comment-wrapper, .p-comments .p-comment-post:not(.mod-collection).comment-deleted-with-note .p-comment-wrapper {
+	.listing-comment :not(.mod-collection).comment-deleted .p-comment-wrapper,
+	.p-comments .p-comment-post:not(.mod-collection).comment-deleted .p-comment-wrapper,
+	.p-comments .p-comment-post:not(.mod-collection).comment-mute-banned .p-comment-wrapper,
+	.p-comments .p-comment-post:not(.mod-collection).comment-deleted-with-note .p-comment-wrapper {
 		background: #888 url("../../blocks/images/ui/ui-deleted-bg.png") no-repeat center center!important;
 	}
 	.ui-dialog.create-warning-modal {
