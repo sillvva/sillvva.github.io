@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.28
+// @version      3.0.29
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -39,11 +39,15 @@ if (inPages("/cp/homebrew/reject")) {
 	function updateSaved() {
 		if (reason.value == 1) {
 			localStorage.savedCopyrightNotes = notes.value;
-			copyBtn.innerText = `Copyright: ${localStorage.savedCopyrightNotes || ""}`;
+			copyBtn.innerText = `Copyright: ${String(localStorage.savedCopyrightNotes || "").slice(0, 10)}...`;
 		}
 		if (reason.value == 17) {
 			localStorage.saved3rdPNotes = notes.value;
-			copyBtn2.innerText = `3rd Party: ${localStorage.saved3rdPNotes || ""}`;
+			copyBtn2.innerText = `3rd Party: ${String(localStorage.saved3rdPNotes || "").slice(0, 10)}...`;
+		}
+		if (reason.value == 2) {
+			localStorage.savedOtherNotes = notes.value;
+			otherBtn.innerText = `Other: ${String(localStorage.savedOtherNotes || "").slice(0, 10)}...`;
 		}
 	}
 
@@ -136,7 +140,7 @@ if (inPages("/cp/homebrew/reject")) {
 	rejectForm.appendChild(publishBtn);
 
 	let copyBtn = document.createElement("button");
-	copyBtn.innerText = `Copyright: ${localStorage.savedCopyrightNotes || ""}`;
+	copyBtn.innerText = `Copyright: ${String(localStorage.savedCopyrightNotes || "").slice(0, 10)}...`;
 	copyBtn.classList.add("button");
 	copyBtn.onclick = function () {
 		try {
@@ -144,7 +148,6 @@ if (inPages("/cp/homebrew/reject")) {
 			if (localStorage.savedCopyrightNotes) {
 				notes.value = localStorage.savedCopyrightNotes;
 			}
-			// if (autoSave) rejectForm.submit();
 		} catch (err) {
 			console.log(err);
 		}
@@ -153,7 +156,7 @@ if (inPages("/cp/homebrew/reject")) {
 	rejectForm.appendChild(copyBtn);
 
 	let copyBtn2 = document.createElement("button");
-	copyBtn2.innerText = `3rd Party: ${localStorage.saved3rdPNotes || ""}`;
+	copyBtn2.innerText = `3rd Party: ${String(localStorage.saved3rdPNotes || "").slice(0, 10)}...`;
 	copyBtn2.classList.add("button");
 	copyBtn2.onclick = function () {
 		try {
@@ -161,13 +164,28 @@ if (inPages("/cp/homebrew/reject")) {
 			if (localStorage.saved3rdPNotes) {
 				notes.value = localStorage.saved3rdPNotes;
 			}
-			// if (autoSave) rejectForm.submit();
 		} catch (err) {
 			console.log(err);
 		}
 		return !!autoSave;
 	};
 	rejectForm.appendChild(copyBtn2);
+
+	let otherBtn = document.createElement("button");
+	otherBtn.innerText = `Other: ${String(localStorage.savedOtherNotes || "").slice(0, 10)}...`;
+	otherBtn.classList.add("button");
+	otherBtn.onclick = function () {
+		try {
+			reason.value = 2;
+			if (localStorage.savedOtherNotes) {
+				notes.value = localStorage.savedOtherNotes;
+			}
+		} catch (err) {
+			console.log(err);
+		}
+		return false;
+	};
+	rejectForm.appendChild(otherBtn);
 }
 
 // Homebrew Reject Buttons
