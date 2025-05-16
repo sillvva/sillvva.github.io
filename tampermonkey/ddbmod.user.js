@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.29
+// @version      3.0.30
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -183,7 +183,7 @@ if (inPages("/cp/homebrew/reject")) {
 		} catch (err) {
 			console.log(err);
 		}
-		return false;
+		return !!autoSave;
 	};
 	rejectForm.appendChild(otherBtn);
 }
