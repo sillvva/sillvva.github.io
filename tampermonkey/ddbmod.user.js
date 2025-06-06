@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.31
+// @version      3.0.32
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -665,7 +665,7 @@ addStyle(`
 	.comment-bulk-moderation form {
 		margin: 0 !important;
 	}
-	.forum-thread-row:has(.user-banned) td {
+	#site .forum-thread-row:has(.user-banned) td {
 		background: #0008 !important;
 	}
 `);
