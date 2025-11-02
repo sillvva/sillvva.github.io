@@ -360,6 +360,11 @@ if (inPages("/cp/reports")) {
 
 	const link = document.querySelector('.report-details header.h2 h2 a[target="_blank"]');
 	const linkContainer = document.querySelector(".report-details header.h2 h2");
+	const postContent = document.querySelector(".listing-container-ul .j-comment-body");
+
+	if (linkContainer) {
+		linkContainer.style.setProperty("max-width", "calc(100% - 250px)", "important");
+	}
 
 	if (link) {
 		const hbLink = new URL(link.getAttribute("href"), "http://www.dndbeyond.com");
@@ -377,21 +382,39 @@ if (inPages("/cp/reports")) {
 			subraces: 1228963568,
 			"species-options": 1228963568
 		}[explodedLink[1]];
+		const searchEntities = ["backgrounds", "spells", "magic-items", "monsters", "races", "species", "subclasses"];
 		const params = hbLink.searchParams;
 		const pComment = params.get("comment");
 
-		if (entityTypeId) {
-			const id = explodedLink[2].split("-")[0];
+		const isHomebrew = entityTypeId && link.innerText === postContent.innerText;
 
-			var rejectButtonLink = "https://www.dndbeyond.com/cp/homebrew/reject?entityTypeId=" + entityTypeId + "&id=" + id;
+		if (isHomebrew) {
+			if (entityTypeId) {
+				const id = explodedLink[2].split("-")[0];
 
-			var rejectButton = document.createElement("A");
-			rejectButton.setAttribute("target", "_blank");
-			rejectButton.setAttribute("href", rejectButtonLink);
-			rejectButton.style =
-				"background-color: red; color: white; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; width: 70px; height: 35px; margin-top: -6px; float: left; margin-right: 10px; text-decoration: none;";
-			rejectButton.innerHTML = "Reject";
-			linkContainer.prepend(rejectButton);
+				var rejectButtonLink = "https://www.dndbeyond.com/cp/homebrew/reject?entityTypeId=" + entityTypeId + "&id=" + id;
+
+				var rejectButton = document.createElement("A");
+				rejectButton.setAttribute("target", "_blank");
+				rejectButton.setAttribute("href", rejectButtonLink);
+				rejectButton.style =
+					"background-color: red; color: white; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; width: 70px; height: 35px; margin-top: -6px; float: right; margin-right: 10px; text-decoration: none;";
+				rejectButton.innerHTML = "Reject";
+				linkContainer.append(rejectButton);
+			}
+
+			if (searchEntities.includes(explodedLink[1])) {
+				const searchValue = link.innerText;
+				const searchUrl = `https://www.dndbeyond.com/homebrew/${explodedLink[1]}?filter-search=${searchValue}`;
+
+				var searchButton = document.createElement("A");
+				searchButton.setAttribute("target", "_blank");
+				searchButton.setAttribute("href", searchUrl);
+				searchButton.style =
+					"background-color: black; color: white; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; width: 70px; height: 35px; margin-top: -6px; float: right; margin-right: 10px; text-decoration: none;";
+				searchButton.innerHTML = "Search";
+				linkContainer.append(searchButton);
+			}
 		}
 
 		var comment = document.querySelector("#reported-content .j-comment[data-id]:not(.user-profile)");
@@ -403,13 +426,13 @@ if (inPages("/cp/reports")) {
 			deleteButton.setAttribute("target", "_blank");
 			deleteButton.setAttribute("href", deleteLink);
 			deleteButton.style =
-				"background-color: red; color: white; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; width: 70px; height: 35px; margin-top: -6px; float: left; margin-right: 10px; text-decoration: none;";
+				"background-color: red; color: white; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; width: 70px; height: 35px; margin-top: -6px; float: right; margin-right: 10px; text-decoration: none;";
 			deleteButton.innerHTML = "Delete";
 			deleteButton.classList.add("modal-link");
 			deleteButton.dataset.title = "Delete Comment";
 			deleteButton.dataset.deletePromptMessage = "Are you sure you want to Delete  this comment?";
 
-			linkContainer.prepend(deleteButton);
+			linkContainer.append(deleteButton);
 		}
 	}
 }
