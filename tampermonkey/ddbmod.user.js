@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.33
+// @version      3.0.34
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -405,7 +405,7 @@ if (inPages("/cp/reports")) {
 
 			if (searchEntities.includes(explodedLink[1])) {
 				const searchValue = link.innerText;
-				const searchUrl = `https://www.dndbeyond.com/homebrew/${explodedLink[1]}?filter-search=${searchValue}`;
+				const searchUrl = `https://www.dndbeyond.com/homebrew/${explodedLink[1]}?filter-search=${searchValue}&filter-name=${searchValue}`;
 
 				var searchButton = document.createElement("A");
 				searchButton.setAttribute("target", "_blank");
