@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.34
+// @version      3.0.35
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -361,14 +361,15 @@ if (inPages("/cp/reports")) {
 	const link = document.querySelector('.report-details header.h2 h2 a[target="_blank"]');
 	const linkContainer = document.querySelector(".report-details header.h2 h2");
 	const postContent = document.querySelector(".listing-container-ul .j-comment-body");
+	const reportContent = document.querySelector(".h2 + .p-comments .j-comment-body");
 
 	if (linkContainer) {
 		linkContainer.style.setProperty("max-width", "calc(100% - 250px)", "important");
 	}
 
 	if (link) {
-		const hbLink = new URL(link.getAttribute("href"), "http://www.dndbeyond.com");
-		const explodedLink = hbLink.pathname.split("/");
+		const linkUrl = new URL(link.getAttribute("href"), "http://www.dndbeyond.com");
+		const explodedLink = linkUrl.pathname.split("/");
 		const entityTypeId = {
 			backgrounds: 1669830167,
 			classes: 789467139,
@@ -383,7 +384,7 @@ if (inPages("/cp/reports")) {
 			"species-options": 1228963568
 		}[explodedLink[1]];
 		const searchEntities = ["backgrounds", "spells", "magic-items", "monsters", "races", "species", "subclasses"];
-		const params = hbLink.searchParams;
+		const params = linkUrl.searchParams;
 		const pComment = params.get("comment");
 
 		const isHomebrew = entityTypeId && link.innerText === postContent.innerText;
@@ -433,7 +434,22 @@ if (inPages("/cp/reports")) {
 			deleteButton.dataset.deletePromptMessage = "Are you sure you want to Delete  this comment?";
 
 			linkContainer.append(deleteButton);
+
+			const linkId = linkUrl.pathname.split("/").at(-1)?.split("-")[0];
+			if (reportContent && reportContent.innerText.includes("Reported for: Wrong Forum") && linkId && linkUrl.searchParams.get("comment") === "1") {
+				const moveLink = `https://www.dndbeyond.com/forum/thread/${linkId}/move`;
+	
+				var moveButton = document.createElement("A");
+				moveButton.setAttribute("target", "_blank");
+				moveButton.setAttribute("href", moveLink);
+				moveButton.style =
+					"background-color: black; color: white; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; width: 70px; height: 35px; margin-top: -6px; float: right; margin-right: 10px; text-decoration: none;";
+				moveButton.innerHTML = "Move Thread";
+	
+				linkContainer.append(moveButton);
+			}
 		}
+
 	}
 }
 
