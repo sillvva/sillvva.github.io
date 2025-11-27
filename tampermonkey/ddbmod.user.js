@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.35
+// @version      3.0.36
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -444,7 +444,7 @@ if (inPages("/cp/reports")) {
 				moveButton.setAttribute("href", moveLink);
 				moveButton.style =
 					"background-color: black; color: white; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; width: 70px; height: 35px; margin-top: -6px; float: right; margin-right: 10px; text-decoration: none;";
-				moveButton.innerHTML = "Move Thread";
+				moveButton.innerHTML = "Move";
 	
 				linkContainer.append(moveButton);
 			}
