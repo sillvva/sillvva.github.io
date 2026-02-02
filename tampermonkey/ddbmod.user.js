@@ -560,7 +560,7 @@ if (inPages("/cp/users")) {
 			if (!usernameField) return;
 			input.addEventListener("input", function (el) {
 				if (link.checked) {
-					usernameField.value = el.target.value;
+					usernameField.value = String(el.target.value).replace(/([^\w]|^_|_$)/gi, "");
 				}
 			});
 		});
