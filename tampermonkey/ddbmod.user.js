@@ -189,37 +189,52 @@ if (inPages("/cp/homebrew/reject")) {
 }
 
 // Homebrew Reject Buttons
-if (inPages("/homebrew", "/magic-items", "/spells", "/monsters", "/feats", "/backgrounds", "/races", "/species", "/species-options", "/subraces", "/subclasses", "/equipment")) {
+if (
+	inPages(
+		"/homebrew",
+		"/magic-items",
+		"/spells",
+		"/monsters",
+		"/feats",
+		"/backgrounds",
+		"/races",
+		"/species",
+		"/species-options",
+		"/subraces",
+		"/subclasses",
+		"/equipment"
+	)
+) {
 	function addRejectButton(nodeName) {
 		if (nodeName) {
 			const moreInfo = document.querySelector(nodeName);
 			if (!moreInfo) return;
 		}
-	
+
 		var reportButtonContainer = document.querySelector(`${nodeName} .report-button`);
 		var rejectButtonExists = document.querySelector(`${nodeName} .reject-button`);
-	
+
 		if (reportButtonContainer && !rejectButtonExists) {
 			if (nodeName.trim().length && itvl[nodeName]) {
 				clearInterval(itvl[nodeName]);
 				delete itvl[nodeName];
 			}
-	
+
 			// and the parent footer container
 			var FooterContainer = reportButtonContainer.parentNode;
-	
+
 			// Extract the data from the report button.
 			// The elements of the explodedLink should be: 0:NULL / 3:reports / 4:create / 5:longID / 6:shortID
 			var reportButtonLink = reportButtonContainer.children[0].href;
 			var explodedLink = reportButtonLink.split("/");
 			var rejectButtonLink = "https://www.dndbeyond.com/cp/homebrew/reject?entityTypeId=" + explodedLink[5] + "&id=" + explodedLink[6];
-	
+
 			// Create a new DIV container to put the new button in
 			var rejectButtonDiv = document.createElement("DIV");
 			rejectButtonDiv.setAttribute("class", "report-button");
 			rejectButtonDiv.style = "margin-left:10px;";
 			FooterContainer.insertBefore(rejectButtonDiv, reportButtonContainer.nextSibling);
-	
+
 			// Create the new "Reject" button
 			var rejectButton = document.createElement("A");
 			rejectButton.setAttribute("class", "reject-button");
@@ -229,12 +244,12 @@ if (inPages("/homebrew", "/magic-items", "/spells", "/monsters", "/feats", "/bac
 			rejectButton.setAttribute("href", rejectButtonLink);
 			rejectButton.style = "background-color:red;";
 			rejectButtonDiv.appendChild(rejectButton);
-	
+
 			// Add the div inside the link
 			var rejectDiv = document.createElement("DIV");
 			rejectDiv.setAttribute("class", "report-button-inner");
 			rejectButton.appendChild(rejectDiv);
-	
+
 			// Add the I and span into the div
 			var rejectDivI = document.createElement("I");
 			rejectDivI.setAttribute("class", "fa-flag");
@@ -242,9 +257,9 @@ if (inPages("/homebrew", "/magic-items", "/spells", "/monsters", "/feats", "/bac
 			var rejectDivSpan = document.createElement("SPAN");
 			rejectDivSpan.innerText = "Reject";
 			rejectDiv.appendChild(rejectDivSpan);
-	
+
 			// New bit - gonna make the username into a hyperlink.
-	
+
 			//Get the user-id number from this: <div class="rating-up " data-user-id="101850578">
 			var userIdTag = document.querySelector(`${nodeName} .rating-up`);
 			var userID = userIdTag.getAttribute("data-user-id");
@@ -253,7 +268,7 @@ if (inPages("/homebrew", "/magic-items", "/spells", "/monsters", "/feats", "/bac
 			var userName = userNameTag.innerText;
 			var userProfileURL = "https://www.dndbeyond.com/members/" + userName;
 			var userCPURL = "https://www.dndbeyond.com/cp/users/" + userID + "-" + userName + "/edit";
-	
+
 			// Now we want a link to view all homebrew from this user.
 			var userHomebrewURL =
 				"https://www.dndbeyond.com/cp/homebrew/approved?filter-author=" +
@@ -438,18 +453,17 @@ if (inPages("/cp/reports")) {
 			const linkId = linkUrl.pathname.split("/").at(-1)?.split("-")[0];
 			if (reportContent && reportContent.innerText.includes("Reported for: Wrong Forum") && linkId && linkUrl.searchParams.get("comment") === "1") {
 				const moveLink = `https://www.dndbeyond.com/forum/thread/${linkId}/move`;
-	
+
 				var moveButton = document.createElement("A");
 				moveButton.setAttribute("target", "_blank");
 				moveButton.setAttribute("href", moveLink);
 				moveButton.style =
 					"background-color: black; color: white; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; width: 70px; height: 35px; margin-top: -6px; float: right; margin-right: 10px; text-decoration: none;";
 				moveButton.innerHTML = "Move";
-	
+
 				linkContainer.append(moveButton);
 			}
 		}
-
 	}
 }
 
@@ -471,7 +485,7 @@ if (inPages("/forums/d-d-beyond-general/bugs-support/65846-display-name-change-r
 		(post) =>
 			!post.querySelectorAll(".comment-deleted").length &&
 			!post.querySelectorAll(".comment-deleted-with-note").length &&
-			!post.querySelectorAll(".public-message").length,
+			!post.querySelectorAll(".public-message").length
 	);
 
 	if (unread[0]) {
@@ -485,7 +499,7 @@ if (inPages("/forums/d-d-beyond-general/bugs-support/65846-display-name-change-r
 				(post) =>
 					!post.querySelectorAll(".comment-deleted").length &&
 					!post.querySelectorAll(".comment-deleted-with-note").length &&
-					!post.querySelectorAll(".public-message").length,
+					!post.querySelectorAll(".public-message").length
 			);
 			const hyper = e.ctrlKey && e.altKey;
 			if (hyper && e.code == "KeyM") {
@@ -530,15 +544,15 @@ if (inPages("/forums/d-d-beyond-general/bugs-support/65846-display-name-change-r
 if (inPages("/cp/users")) {
 	const cb = document.querySelector("input#field-add-nickname-credit:not([disabled])");
 	if (cb) cb.setAttribute("checked", "checked");
-	
-	getQuerySelector("#form-field-nickname").then(nicknameField => {
+
+	getQuerySelector("#form-field-nickname").then((nicknameField) => {
 		// Create the checkbox field below
 		const checkboxField = document.createElement("div");
 		checkboxField.classList.add("form-field");
 		checkboxField.classList.add("form-field-boolean-field");
 		checkboxField.id = "form-field-namelink";
 		nicknameField.after(checkboxField);
-		
+
 		// Create the checkbox input
 		const checkboxInput = document.createElement("input");
 		checkboxInput.type = "checkbox";
@@ -554,19 +568,26 @@ if (inPages("/cp/users")) {
 
 		const link = document.querySelector("#field-namelink");
 		if (!link) return;
-		
-		focusInput("input#field-nickname").then(input => {
+
+		let inputDebounce;
+		focusInput("input#field-nickname").then((input) => {
 			const usernameField = document.querySelector("#field-manual-user-rename");
 			if (!usernameField) return;
 			input.addEventListener("input", function (el) {
 				if (link.checked) {
-					usernameField.value = String(el.target.value).replace(/([^\w]|^_|_$)/gi, "");
+					usernameField.value = String(el.target.value)
+						.replace(/[_]/g, "_")
+						.replace(/([^\w]|^_|_$)/gi, "");
 				}
+				clearTimeout(inputDebounce);
+				inputDebounce = setTimeout(() => {
+					el.target.value = el.target.value.replace(/[_]/g, "_").replace(/([^\w]|^_|_$)/gi, "");
+				}, 300);
 			});
 		});
 	});
 
-	getQuerySelector("select#field-ban-type").then(banType => {
+	getQuerySelector("select#field-ban-type").then((banType) => {
 		banType.onchange = function () {
 			if (this.value == 4) {
 				setTimeout(() => {
