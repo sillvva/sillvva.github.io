@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.38
+// @version      3.0.39
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -581,7 +581,7 @@ if (inPages("/cp/users")) {
 				}
 				clearTimeout(inputDebounce);
 				inputDebounce = setTimeout(() => {
-					el.target.value = el.target.value.replace(/[_]/g, "_").replace(/([^\w]|^_|_$)/gi, "");
+					el.target.value = el.target.value.replace(/[_]/g, "_").replace(/[^\w]/g, "");
 				}, 300);
 			});
 		});
