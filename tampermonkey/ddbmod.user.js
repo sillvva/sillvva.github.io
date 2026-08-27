@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         D&D Beyond Moderator
 // @namespace    http://dndbeyond.com/
-// @version      3.0.39
+// @version      3.0.40
 // @description  Adds extra moderator options and links
 // @supportURL   https://github.com/sillvva/sillvva.github.io/tree/main/tampermonkey
 // @downloadURL  https://sillvva.github.io/tampermonkey/ddbmod.user.js
@@ -402,7 +402,15 @@ if (inPages("/cp/reports")) {
 		const params = linkUrl.searchParams;
 		const pComment = params.get("comment");
 
-		const isHomebrew = entityTypeId && link.innerText === postContent.innerText;
+		const postParts = postContent.innerText.split(" ");
+		const matches = link.innerText.split(" ").reduce((linkPart, i, acc) => {
+			if (!acc) return acc;
+			if (!linkPart.length) return acc;
+			const postPart = postParts[i];
+			return acc && (/^\*+$/.test(postPart) || postPart === linkPart);
+		}, true);
+
+		const isHomebrew = entityTypeId && matches;
 
 		if (isHomebrew) {
 			if (entityTypeId) {
