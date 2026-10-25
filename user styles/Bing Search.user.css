@@ -1,0 +1,12 @@
+/* ==UserStyle==
+@name        Bing Search
+@namespace   github.com/openstyles/stylus
+@version     1.0.0
+==/UserStyle== */
+
+@-moz-document url-prefix("https://www.bing.com/search") {
+	.qna_elc .rwrl, .df_c .rwrl, #b_results .df_c .b_entityTitle,
+	#df_listaa .b_module_expansion .b_expansion_text, .WordContainer * {
+	    color: white !important;
+	}
+}

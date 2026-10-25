@@ -1,0 +1,20 @@
+/* ==UserStyle==
+@name        nhentai.net
+@namespace   github.com/openstyles/stylus
+@version     1.0.0
+==/UserStyle== */
+
+@-moz-document domain("nhentai.net") {
+	#favorites-search {
+	    display: inline-flex;
+	    * {
+	        margin: 0;
+	    }
+	    input {
+	        flex: 1;
+	    }
+	}
+	#favorites-random-button {
+	    margin-top: 0px;
+	}
+}

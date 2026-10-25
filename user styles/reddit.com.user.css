@@ -1,0 +1,15 @@
+/* ==UserStyle==
+@name        reddit.com
+@namespace   github.com/openstyles/stylus
+@version     1.0.0
+==/UserStyle== */
+
+@-moz-document domain("www.reddit.com") {
+	faceplate-tracker[noun="games_drawer"] {
+		display: none;
+	}
+
+	faceplate-tracker[noun="games_drawer"] + hr {
+		display: none;
+	}
+}

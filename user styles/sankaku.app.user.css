@@ -1,0 +1,14 @@
+/* ==UserStyle==
+@name        sankaku.app
+@namespace   github.com/openstyles/stylus
+@version     1.0.0
+==/UserStyle== */
+
+@-moz-document domain("sankaku.app") {
+	.MuiPaper-root.MuiCard-root {
+	    display: none;
+	}
+	.MuiDialog-root[role=presentation]:not(#auth-dialog) {
+	    display: none;
+	}
+}

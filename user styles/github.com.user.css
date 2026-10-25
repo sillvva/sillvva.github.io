@@ -1,0 +1,13 @@
+/* ==UserStyle==
+@name        github.com
+@namespace   github.com/openstyles/stylus
+@version     1.0.0
+==/UserStyle== */
+
+@-moz-document domain("github.com") {
+	textarea.js-comment-field, .MarkdownInput-module__textArea--kLNLR textarea {
+	    font-family: monospace;
+	    font-size: 13px;
+	    tab-size: 2;
+	}
+}

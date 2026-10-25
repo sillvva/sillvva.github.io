@@ -1,0 +1,11 @@
+/* ==UserStyle==
+@name        archidekt.com
+@namespace   github.com/openstyles/stylus
+@version     1.0.0
+==/UserStyle== */
+
+@-moz-document domain("archidekt.com") {
+	:has(> .inlineAd_hideOnMobile__TQyCw, > * > .inlineAd_patreonHidden__vTq3f), .eAFDz {
+	    display: none !important;
+	}
+}

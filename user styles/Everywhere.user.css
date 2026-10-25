@@ -1,0 +1,11 @@
+/* ==UserStyle==
+@name        Everywhere
+@namespace   github.com/openstyles/stylus
+@version     1.0.0
+==/UserStyle== */
+
+body:not(.site-dndbeyond) a[target="_blank"]:not(:empty):not(:has(*:not(span)))::after {
+    content: '↗';
+    margin-inline-start: 0.125rem;
+    display: inline-block;
+}

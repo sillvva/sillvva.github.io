@@ -1,0 +1,17 @@
+/* ==UserStyle==
+@name        moxfield.com
+@namespace   github.com/openstyles/stylus
+@version     1.0.0
+==/UserStyle== */
+
+@-moz-document domain("moxfield.com") {
+	.zHwNSdceCL_i1SUmbRkU {
+	    display: none;
+	}
+	.position-fixed:has(a[href^="/help/faq"]) {
+	  display: none;
+	}
+	.flex-column:has(> .markdown-editor) {
+	  max-height: calc(100vh - 480px);
+	}
+}

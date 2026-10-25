@@ -1,0 +1,92 @@
+/* ==UserStyle==
+@name        youtube.com
+@namespace   github.com/openstyles/stylus
+@version     1.0.0
+==/UserStyle== */
+
+@-moz-document domain("youtube.com") {
+	#contents ytd-rich-item-renderer {
+	/*     margin-left: calc(var(--ytd-rich-grid-item-margin)/2 - 1); */
+	}
+
+	@media (min-width: 1400px) {
+	    #contents {
+	        --ytd-rich-grid-items-per-row: 4;
+	        --ytd-rich-grid-posts-per-row: 4;
+	    }
+	    #dismissible #contents {
+	        --ytd-rich-grid-items-per-row: 5;
+	    }
+
+	    #contents ytd-rich-item-renderer:nth-of-type(4n-3) {
+	/*         margin-left: calc(var(--ytd-rich-grid-item-margin)/2 + var(--ytd-rich-grid-gutter-margin)); */
+	    }
+	}
+
+	@media (min-width: 1800px) {
+	    #contents {
+	        --ytd-rich-grid-items-per-row: 5;
+	        --ytd-rich-grid-posts-per-row: 5;
+	    }
+	    #dismissible #contents {
+	        --ytd-rich-grid-items-per-row: 6;
+	    }
+
+	    #contents ytd-rich-item-renderer:nth-of-type(5n-4) {
+	/*         margin-left: calc(var(--ytd-rich-grid-item-margin)/2 + var(--ytd-rich-grid-gutter-margin)); */
+	    }
+	}
+
+	@media (min-width: 2200px) {
+	    #contents {
+	        --ytd-rich-grid-items-per-row: 6;
+	        --ytd-rich-grid-posts-per-row: 6;
+	    }
+	    #dismissible #contents {
+	        --ytd-rich-grid-items-per-row: 7;
+	    }
+
+	    #contents ytd-rich-item-renderer:nth-of-type(6n-5) {
+	/*         margin-left: calc(var(--ytd-rich-grid-item-margin)/2 + var(--ytd-rich-grid-gutter-margin)); */
+	    }
+	}
+
+	ytd-subscribe-button-renderer yt-smartimation,
+	a[href*="https://support.google.com/youtube?p=ppp"],
+	.ytm-paid-content-overlay-renderer.YtmPaidContentOverlayHost,
+	.ytm-paid-content-overlay-renderer,
+	.YtmPaidContentOverlayHost {
+	    display: none;
+	}
+
+	#content {
+	    &:has(#frosted-glass.with-chipbar) {
+	        &:has(#chips-wrapper) {
+	            #primary #header {
+	                height: 40px;
+	            }
+	        }
+	        &:has(#selected-chip-content) {
+	            #primary #header {
+	                height: var(--ytd-chips-bar-dynamic-height);
+	            }
+	        }
+	        &:not(:has(#chips-wrapper)) #frosted-glass.with-chipbar {
+	            /* display: none !important;*/
+	            max-height: 60px;
+	        }
+	    }
+	    &:has(#frosted-glass.without-chipbar) {
+	        #contents.ytd-rich-grid-renderer {
+	            padding-top: 2rem;
+	        }
+	    }
+	}
+}
+
+@-moz-document regexp("^https://www.youtube.com/(\\?bp=.+)?$") {
+	:is(#big-yoodle, ytd-rich-section-renderer, ytd-brand-video-shelf-renderer):has(#dismissible),
+	#contents ytd-rich-section-renderer {
+	    display: none;
+	}
+}

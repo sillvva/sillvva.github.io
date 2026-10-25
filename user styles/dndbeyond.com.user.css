@@ -1,0 +1,17 @@
+/* ==UserStyle==
+@name        dndbeyond.com
+@namespace   github.com/openstyles/stylus
+@version     1.0.0
+==/UserStyle== */
+
+@-moz-document domain("dndbeyond.com") {
+	.ui-dialog.create-warning-modal {
+	    z-index: 10004 !important;
+	}
+
+	.body-rpgcharacterbuilder,
+	ul#navigation li a, 
+	ul#navigation li.section > span {
+	    background: none !important;
+	}
+}
